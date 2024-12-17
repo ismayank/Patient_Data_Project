@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .loading-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .loader {
+            width: 3rem;
+            height: 3rem;
+            border: 0.3em solid rgba(255, 255, 255, 0.3);
+            border-top: 0.3em solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .patient-list {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .patient-list.visible {
+            display: block;
+            opacity: 1;
+        }
+        .container {
+            padding: 30px;
+        }
+        .list-group-item {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #343a40;
+            font-family: 'Arial', sans-serif;
+        }
+        h5 {
+            font-weight: bold;
+        }
+        p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
+    <div class="patient-list" id="patientList">
+        <h1 class="text-center mb-4">Patient Data</h1>
+        <div class="list-group">
+            {% for patient in patients %}
+                <div class="list-group-item mb-3">
+                    <h5 class="mb-3">Anonymous ID: {{ patient.anonymous_id }}</h5>
+                    <p><strong>Age:</strong> {{ patient.age }}</p>
+                    <p><strong>Gestational Age:</strong> {{ patient.gestational_age }}</p>
+                    <p><strong>BMI:</strong> {{ patient.bmi }}</p>
+                    <p><strong>Gender:</strong> {{ patient.gender }}</p>
+
+                    <h6 class="mt-4">Examination Findings:</h6>
+                    <ul>
+                        <li><strong>Head:</strong> {{ patient.examination_findings.head }}</li>
+                        <li><strong>Brain:</strong> {{ patient.examination_findings.brain }}</li>
+                        <li><strong>Heart:</strong> {{ patient.examination_findings.heart }}</li>
+                        <li><strong>Spine:</strong> {{ patient.examination_findings.spine }}</li>
+                        <li><strong>Abdominal Wall:</strong> {{ patient.examination_findings.abdominal_wall }}</li>
+                        <li><strong>Urinary Tract:</strong> {{ patient.examination_findings.urinary_tract }}</li>
+                        <li><strong>Extremities:</strong> {{ patient.examination_findings.extremities }}</li>
+                        <li><strong>Conclusion:</strong> {{ patient.examination_findings.conclusion }}</li>
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('patientList').classList.add('visible');
+        }, 1000);
+    });
+</script>
+
+</body>
+</html>
